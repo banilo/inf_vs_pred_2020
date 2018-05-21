@@ -10,7 +10,7 @@ Simulations and real-world data
 Danilo Bzdok, Denis A. Engemann, Olivier Grisel, Gaël Varoquaux, Bertrand Thirion
 
 
-## Interactive exploration of analysis and supplementary materials
+## Online interactive exploration of analysis and supplementary materials
 
 For interactive exploration launch a binder session by clicking on the badge above.
 
