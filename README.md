@@ -20,13 +20,8 @@ For interactive exploration launch a binder session by clicking on the badge abo
 
 - ```infpred_simu.ipynb``` presents in greater detail exploration of selected simulation scenarios.
 
----
-**NOTE** 
-
-As computational resources are limited in binder (https://mybinder.org) certain cells of the notebook may take longer to run, especially for visualization using Seaborn. You can skip those cells or have to be patient.
+Note. As computational resources are limited in Binder (https://mybinder.org) certain cells of the notebook may take longer to run, especially for visualization using Seaborn. You can skip those cells or have to be patient.
 
 Depending on your internet connection and current traffic, Binder may take more or less time to load the interactive session.
-
----
 
 Alternatively, the analyses can also be explored locally by cloning the git repository.
