@@ -12,7 +12,10 @@ Danilo Bzdok, Denis A. Engemann, Olivier Grisel, Gaël Varoquaux, Bertrand Thiri
 
 ## Online interactive exploration of analysis and supplementary materials
 
-For interactive exploration launch a binder session by clicking on the badge above.
+For interactive exploration launch a binder session by clicking on the badge above (latest version).
+To access the version used for the journal submission and upload to bioarxiv (R0) use this link:
+
+https://mybinder.org/v2/gh/banilo/inf_vs_pred_2018/r0_bioRxiv
 
 - ```infpred_interactive_simu_explorer.ipynb``` provides an interactive visualization tool for exploring the simulation results reported in the paper (Figures 1-3).
 
