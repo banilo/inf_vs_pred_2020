@@ -27,6 +27,10 @@ scores_ = scores.max(-1)
 scores_[scores_ < 0] = 0
 
 pvals_ = pvals.min(1)
+n_feat_unique = df.n_feat.unique()
+assert len(n_feat_unique) == 1
+bonferroni_factor = n_feat_unique[0]
+pvals_ *= bonferroni_factor
 
 sns.set_style('ticks')
 
@@ -107,7 +111,7 @@ for ii, path in enumerate(pathologies):
                       fontsize=12, fontweight=150)
 
 plt.subplots_adjust(hspace=0.33, left=.08, right=.94, top=.94, bottom=.10)
-plt.savefig('./figures/simulations_by_violation.png', bbox_inches='tight',
+plt.savefig('./figures/simulations_by_violation_r1.png', bbox_inches='tight',
             dpi=300)
-plt.savefig('./figures/simulations_by_violation.pdf', bbox_inches='tight',
+plt.savefig('./figures/simulations_by_violation_r1.pdf', bbox_inches='tight',
             dpi=300)
