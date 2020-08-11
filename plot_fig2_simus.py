@@ -14,9 +14,11 @@ df = pd.read_pickle('./simulations_may.gzip')
 
 df.model_violation[df.model_violation.isnull()] = 'None'
 
-
 pvals = np.array([x for x in df['lr_pvalues'].values])
+# catch p-values that we clipped to eps where statsmodels returned zeros
+# and set them to np.finfo(np.float64).tiny.
 pvals[pvals == np.finfo(pvals.dtype).eps] = 2.2250738585072014e-308
+# arbitrarily filter at 1 x 10 ^ -300
 pvals[pvals < 1e-300] = np.nan
 
 scores = np.array([x for x in df['scores_debiased'].values])
@@ -83,6 +85,7 @@ for ii, path in enumerate(pathologies):
     scat = ax_inset.scatter(x, y, c="black", s=size,
                             edgecolors='face',
                             vmin=0.2, vmax=color.max(),
+                            rasterized=True,
                             alpha=0.1)
     ax_inset.set_xlim(*-np.log10([0.5, 0.001]))
     ax_inset.set_xticks(
@@ -105,4 +108,6 @@ for ii, path in enumerate(pathologies):
 
 plt.subplots_adjust(hspace=0.33, left=.08, right=.94, top=.94, bottom=.10)
 plt.savefig('./figures/simulations_by_violation.png', bbox_inches='tight',
+            dpi=300)
+plt.savefig('./figures/simulations_by_violation.pdf', bbox_inches='tight',
             dpi=300)

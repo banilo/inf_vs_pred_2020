@@ -21,7 +21,10 @@ assert np.allclose([x[0] for x in df.lr_pvalues.values],
                    [x[0] for x in df_ols.lr_pvalues.values])
 
 pvals = np.array([x for x in df['lr_pvalues'].values])
+# catch p-values that we clipped to eps where statsmodels returned zeros
+# and set them to np.finfo(np.float64).tiny.
 pvals[pvals == np.finfo(pvals.dtype).eps] = 2.2250738585072014e-308
+# arbitrarily filter at 1 x 10 ^ -300
 pvals[pvals < 1e-300] = np.nan
 scores = np.array([x for x in df['scores_debiased'].values])
 
@@ -76,6 +79,7 @@ scat = ax_zoom.scatter(
     edgecolors='face',
     cmap=plt.get_cmap('viridis', len(np.unique(color))),
     vmin=0.2, vmax=color.max(),
+    rasterized=True,
     alpha=0.2)
 
 ax_zoom.set_xlim(*-np.log10([0.4, 0.02]))
@@ -135,4 +139,6 @@ ax_es.set_ylim(-0.05, 1.05)
 plt.subplots_adjust(left=0.05, right=0.96, top=0.95, bottom=0.14, wspace=0.37)
 
 fig.savefig('./figures/simulations_overview_fig1.png', bbox_inches='tight',
+            dpi=300)
+fig.savefig('./figures/simulations_overview_fig1.pdf', bbox_inches='tight',
             dpi=300)

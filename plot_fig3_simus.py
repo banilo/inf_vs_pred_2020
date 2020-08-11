@@ -14,8 +14,12 @@ df = pd.read_pickle('./simulations_may.gzip')
 
 df.model_violation[df.model_violation.isnull()] = 'None'
 
+
 pvals = np.array([x for x in df['lr_pvalues'].values])
+# catch p-values that we clipped to eps where statsmodels returned zeros
+# and set them to np.finfo(np.float64).tiny.
 pvals[pvals == np.finfo(pvals.dtype).eps] = 2.2250738585072014e-308
+# arbitrarily filter at 1 x 10 ^ -300
 pvals[pvals < 1e-300] = np.nan
 
 scores = np.array([x for x in df['scores_debiased'].values])
@@ -114,6 +118,7 @@ for i_case, case in enumerate(cases):
                       # norm=plt.matplotlib.colors.BoundaryNorm(
                       #     boundaries=np.unique(cvals),
                       #     ncolors=len(np.unique(cvals))),
+                      rasterized=True,
                       alpha=0.5)
 
     divider = make_axes_locatable(ax)
@@ -156,6 +161,7 @@ for i_case, case in enumerate(cases):
                             s=1,
                             edgecolors='face',
                             vmin=0.2,
+                            rasterized=True,
                             alpha=0.5)
     ax_inset.set_xlim(*-np.log10([0.5, 0.001]))
     ax_inset.set_xticks(
@@ -184,4 +190,6 @@ for i_case, case in enumerate(cases):
 plt.subplots_adjust(hspace=0.33, wspace=.46, left=.07, right=.94, top=.94,
                     bottom=.10)
 plt.savefig('./figures/simulations_by_aspect.png', bbox_inches='tight',
+            dpi=300)
+plt.savefig('./figures/simulations_by_aspect.pdf', bbox_inches='tight',
             dpi=300)

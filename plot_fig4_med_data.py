@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
-from sklearn.cross_validation import ShuffleSplit
+from sklearn.model_selection import ShuffleSplit
 from sklearn.linear_model import Lasso
 from matplotlib import pylab as plt
 from statsmodels.regression.linear_model import OLS
@@ -27,9 +27,9 @@ def compute_lasso_regpath(X, y, C_grid, metric=None, verbose=True):
         sample_accs_unbiased = []
         sample_coef = []
         for i_subsample in range(100):
-            folder = ShuffleSplit(n=len(y), n_iter=100, test_size=0.1,
+            folder = ShuffleSplit(n_splits=100, test_size=0.1,
                                   random_state=i_subsample)
-            train_inds, test_inds = next(iter(folder))
+            train_inds, test_inds = next(folder.split(X, y))
 
             clf = Lasso(alpha=my_C, random_state=i_subsample)
 
