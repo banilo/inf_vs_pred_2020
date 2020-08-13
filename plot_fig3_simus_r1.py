@@ -14,7 +14,6 @@ df = pd.read_pickle('./simulations_may.gzip')
 
 df.model_violation[df.model_violation.isnull()] = 'None'
 
-
 pvals = np.array([x for x in df['lr_pvalues'].values])
 # catch p-values that we clipped to eps where statsmodels returned zeros
 # and set them to np.finfo(np.float64).tiny.
@@ -28,6 +27,10 @@ scores_ = scores.max(-1)
 scores_[scores_ < 0] = 0
 
 pvals_ = pvals.min(1)
+n_feat_unique = df.n_feat.unique()
+assert len(n_feat_unique) == 1
+bonferroni_factor = n_feat_unique[0]
+pvals_ *= bonferroni_factor
 
 sns.set_style('ticks')
 
@@ -114,11 +117,11 @@ for i_case, case in enumerate(cases):
                       s=1,
                       edgecolors='face',
                       # cmap='viridis',
+                      rasterized=True,
                       cmap=plt.get_cmap('viridis', len(np.unique(cvals))),
                       # norm=plt.matplotlib.colors.BoundaryNorm(
                       #     boundaries=np.unique(cvals),
                       #     ncolors=len(np.unique(cvals))),
-                      rasterized=True,
                       alpha=0.5)
 
     divider = make_axes_locatable(ax)
@@ -160,8 +163,8 @@ for i_case, case in enumerate(cases):
                                               len(np.unique(cvals_plt))),
                             s=1,
                             edgecolors='face',
-                            vmin=0.2,
                             rasterized=True,
+                            vmin=0.2,
                             alpha=0.5)
     ax_inset.set_xlim(*-np.log10([0.5, 0.001]))
     ax_inset.set_xticks(
@@ -189,7 +192,7 @@ for i_case, case in enumerate(cases):
 
 plt.subplots_adjust(hspace=0.33, wspace=.46, left=.07, right=.94, top=.94,
                     bottom=.10)
-plt.savefig('./figures/simulations_by_aspect.png', bbox_inches='tight',
+plt.savefig('./figures/simulations_by_aspect_r1.png', bbox_inches='tight',
             dpi=300)
-plt.savefig('./figures/simulations_by_aspect.pdf', bbox_inches='tight',
+plt.savefig('./figures/simulations_by_aspect_r1.pdf', bbox_inches='tight',
             dpi=300)

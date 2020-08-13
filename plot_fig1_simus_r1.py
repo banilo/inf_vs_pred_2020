@@ -28,6 +28,11 @@ pvals[pvals == np.finfo(pvals.dtype).eps] = 2.2250738585072014e-308
 pvals[pvals < 1e-300] = np.nan
 scores = np.array([x for x in df['scores_debiased'].values])
 
+n_feat_unique = df.n_feat.unique()
+assert len(n_feat_unique) ==  1
+bonferroni_factor = n_feat_unique[0]
+pvals *= bonferroni_factor
+
 scores_ = scores.max(-1)
 scores_[scores_ < 0] = 0
 
@@ -138,7 +143,6 @@ ax_es.set_ylim(-0.05, 1.05)
 
 plt.subplots_adjust(left=0.05, right=0.96, top=0.95, bottom=0.14, wspace=0.37)
 
-fig.savefig('./figures/simulations_overview_fig1.png', bbox_inches='tight',
+fig.savefig('./figures/simulations_overview_fig1_r1.png', bbox_inches='tight',
             dpi=300)
-fig.savefig('./figures/simulations_overview_fig1.pdf', bbox_inches='tight',
-            dpi=300)
+fig.savefig('./figures/simulations_overview_fig1_r1.pdf', bbox_inches='tight')
