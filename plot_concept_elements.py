@@ -22,10 +22,12 @@ plt.close("all")
 blue = sns.light_palette("navy")
 red = sns.light_palette("red")
 
+pad = 0.2
+
 fig1, ax = plt.subplots(1, 1, figsize=(3, 5))
 sns.heatmap(X, cbar=False, ax=ax, annot=True, cmap=blue)
 divider = make_axes_locatable(ax)
-ax2 = divider.append_axes('right', size='25%', pad=0.5)
+ax2 = divider.append_axes('right', size='25%', pad=pad)
 sns.heatmap(y, cbar=False, ax=ax2, annot=True, cmap=red)
 
 ax.set_xticks([])
@@ -39,7 +41,7 @@ train, test = next(cv.split(X, y))
 fig2, ax = plt.subplots(1, 1, figsize=(3, 4.5))
 sns.heatmap(X[train], cbar=False, ax=ax, annot=True, cmap=blue)
 divider = make_axes_locatable(ax)
-ax2 = divider.append_axes('right', size='25%', pad=0.5)
+ax2 = divider.append_axes('right', size='25%', pad=pad)
 sns.heatmap(y[train], cbar=False, ax=ax2, annot=True, cmap=red)
 
 ax.set_xticks([])
@@ -50,7 +52,7 @@ ax2.set_yticks([])
 fig3, ax = plt.subplots(1, 1, figsize=(3, 0.5))
 sns.heatmap(X[test], cbar=False, ax=ax, annot=True, cmap=blue)
 divider = make_axes_locatable(ax)
-ax2 = divider.append_axes('right', size='25%', pad=0.5)
+ax2 = divider.append_axes('right', size='25%', pad=pad)
 sns.heatmap(y[test], cbar=False, ax=ax2, annot=True, cmap=red)
 
 ax.set_xticks([])
